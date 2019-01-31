@@ -563,6 +563,8 @@ void imprimer (char** tab, int taille) {
     fclose(fichier);
 }
 
+
+
 int main()
 {
     char** tab;
@@ -570,23 +572,37 @@ int main()
 
     //demande de la taille (grille carrée)
     printf("Quelle taille de grille voulez-vous ? ");
-    scanf("%d", &taille);getchar();
+    scanf("%d", &taille);
+    getchar();
+
     //création de la grille
     tab = creationTableau(taille);
+
     //place des mots
     placeMot(tab, taille);
+
     //remplie les vides
     remplir(tab, taille);
+
     //créer un fichier texte imprimable
     imprimer(tab, taille);
+
     //affichage de la grille
     printf("\n\n\n");
-    for (int i=0;i<taille;++i) {
-        for (int j=0;j<taille;++j) {
+
+    //affiche une ligne au dessus de la grille
+    printf("%.*s\n", taille, "_");
+
+    for (int i=0; i<taille; ++i) {
+    printf("|");
+        for (int j=0; j<taille; ++j) {
             printf("%c", tab[i][j]);
         }
-        printf("\n");
+        printf("|\n");
     }
+
+    //affiche une ligne au dessous de la grille
+    printf("%.*s\n", taille, "_");
 
     return 0;
 }
