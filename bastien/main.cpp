@@ -324,42 +324,16 @@ void remplir(char** tab, int taille) {
 }
 
 void placeMot(char** tab, int taille) {
-    int placer;
+    int placer = 0;
     srand(time(0));
 
     if(taille >= 3)
     {
-        char caractereLu;
-        placer = 0;
-
         //Ouvre le fichier
-        FILE *fichier;
-        fichier = fopen("3lettres.txt", "r");
-        if (fichier == NULL)
-        {
-            perror("Erreur : Pas de fichier valide !");
-            exit(EXIT_FAILURE);
-        }
+        FILE *fichier = ouvreFichier("3lettres.txt");
+        char* mot = (char*)malloc(sizeof(char)*4);
 
-        char* mot;
-        mot = (char*)malloc(sizeof(char)*4);
-
-        //on prend un mot au pif
-        int ligneFichier = rand()%(300 - 1) +1;
-        if (fichier != NULL)
-        {
-            while (ligneFichier > 0)
-            {
-                caractereLu = fgetc(fichier);
-                    if (caractereLu == '\n')
-                    {
-                        ligneFichier--;
-                    }
-            }
-
-            fgets(mot, 4, fichier);
-            printf("%s\n", mot);
-        }
+        ecritMot(fichier, mot);
 
         fclose(fichier);
 
@@ -370,7 +344,6 @@ void placeMot(char** tab, int taille) {
 
     if(taille >= 4)
     {
-        placer = 0;
         char caractereLu;
 
         //Ouvre le fichier
@@ -410,7 +383,6 @@ void placeMot(char** tab, int taille) {
 
     if(taille >= 5)
     {
-        placer = 0;
         char caractereLu;
 
         //Ouvre le fichier
@@ -450,7 +422,6 @@ void placeMot(char** tab, int taille) {
 
     if(taille >= 6)
     {
-        placer = 0;
         char caractereLu;
 
         //Ouvre le fichier
@@ -486,9 +457,9 @@ void placeMot(char** tab, int taille) {
         placeDansTab(tab, mot, taille, &placer);
         free(mot);
     }
+
     if(taille >= 7)
     {
-        placer = 0;
         char caractereLu;
 
         //Ouvre le fichier
@@ -528,7 +499,6 @@ void placeMot(char** tab, int taille) {
 
     if(taille >= 8)
     {
-        placer = 0;
         char caractereLu;
 
         //Ouvre le fichier
@@ -568,7 +538,6 @@ void placeMot(char** tab, int taille) {
 
     if(taille >= 9)
     {
-        placer = 0;
         char caractereLu;
 
         //Ouvre le fichier
@@ -608,7 +577,6 @@ void placeMot(char** tab, int taille) {
 
     if(taille >= 10)
     {
-        placer = 0;
         char caractereLu;
 
         //Ouvre le fichier
@@ -645,6 +613,33 @@ void placeMot(char** tab, int taille) {
         placeDansTab(tab, mot, taille, &placer);
         free(mot);
     }
+}
+
+FILE* ouvreFichier(char *nomFichier) {
+    FILE *fichier = fopen(nomFichier, "r");
+    if (fichier == NULL)
+    {
+        perror("Erreur : Pas de fichier valide !");
+        exit(EXIT_FAILURE);
+    }
+
+    return fichier;
+}
+
+void ecritMot(FILE *fichier, char* mot) {
+    //on prend un mot au pif
+    char caractereLu;
+    for (int ligneFichier = rand()%(300 - 1) +1; ligneFichier > 0;)
+    {
+        caractereLu = fgetc(fichier);
+        if (caractereLu == '\n')
+        {
+            --ligneFichier;
+        }
+    }
+
+    fgets(mot, 4, fichier);
+    printf("%s\n", mot);
 }
 
 char** creationTableau (int taille) {
